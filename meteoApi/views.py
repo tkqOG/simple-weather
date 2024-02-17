@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import geocoder as geocoder
+import geocoder
 import requests
 
 from django.http import HttpResponse
@@ -12,11 +12,13 @@ from meteoApi.models import WorldCities
 def random_location_temp(request):
     random_item = WorldCities.objects.all().order_by('?').first()
     city = random_item.city
+    country = random_item.country
     location = [random_item.lat, random_item.lng]
     temp = get_temp(location)
     template = loader.get_template('index.html')
     context = {
         'city': city,
+        'country': country,
         'temp': temp,
     }
     return HttpResponse(template.render(context, request))
